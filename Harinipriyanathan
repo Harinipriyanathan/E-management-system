@@ -1,0 +1,130 @@
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Patient {
+    private String name;
+    private int age;
+    private String id;
+
+    public Patient(String name, int age, String id) {
+        this.name = name;
+        this.age = age;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient ID: " + id + ", Name: " + name + ", Age: " + age;
+    }
+}
+
+class Appointment {
+    private String patientId;
+    private String date;
+    private String time;
+
+    public Appointment(String patientId, String date, String time) {
+        this.patientId = patientId;
+        this.date = date;
+        this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "Appointment for Patient ID: " + patientId + " on " + date + " at " + time;
+    }
+}
+
+class EHealthSystem {
+    private List<Patient> patients;
+    private List<Appointment> appointments;
+
+    public EHealthSystem() {
+        patients = new ArrayList<>();
+        appointments = new ArrayList<>();
+    }
+
+    public void addPatient(String name, int age, String id) {
+        Patient patient = new Patient(name, age, id);
+        patients.add(patient);
+        System.out.println("Patient added: " + patient);
+    }
+
+    public void scheduleAppointment(String patientId, String date, String time) {
+        Appointment appointment = new Appointment(patientId, date, time);
+        appointments.add(appointment);
+        System.out.println("Appointment scheduled: " + appointment);
+    }
+
+    public void listPatients() {
+        System.out.println("Patients List:");
+        for (Patient patient : patients) {
+            System.out.println(patient);
+        }
+    }
+
+    public void listAppointments() {
+        System.out.println("Appointments List:");
+        for (Appointment appointment : appointments) {
+            System.out.println(appointment);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        EHealthSystem system = new EHealthSystem();
+
+        while (true) {
+            System.out.println("\nE-Health Management System");
+            System.out.println("1. Add Patient");
+            System.out.println("2. Schedule Appointment");
+            System.out.println("3. List Patients");
+            System.out.println("4. List Appointments");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Patient Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Patient Age: ");
+                    int age = scanner.nextInt();
+                    System.out.print("Enter Patient ID: ");
+                    String id = scanner.next();
+                    system.addPatient(name, age, id);
+                    break;
+                case 2:
+                    System.out.print("Enter Patient ID: ");
+                    String patientId = scanner.next();
+                    System.out.print("Enter Appointment Date (YYYY-MM-DD): ");
+                    String date = scanner.next();
+                    System.out.print("Enter Appointment Time (HH:MM): ");
+                    String time = scanner.next();
+                    system.scheduleAppointment(patientId, date, time);
+                    break;
+                case 3:
+                    system.listPatients();
+                    break;
+                case 4:
+                    system.listAppointments();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+}
